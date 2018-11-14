@@ -4,6 +4,9 @@ authors:
     Calder Birdsey 
 
 known bugs: 
+    -seg fault when running with my-malloc.so linked 
+    -potential issues with alignment? 
+    -from what I could tell in gdb, my-malloc was working as it should with the tests I had, but have am not entirely positive its implemented properly 
 
 sources:
 https://www.geeksforgeeks.org/linked-list-set-1-introduction/
