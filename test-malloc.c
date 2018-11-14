@@ -13,6 +13,8 @@ main(int argc, char const *argv[]) {
     char *test3 = malloc(1000);
     free(test1); 
     char *test4 = malloc(1000); 
+    
+    //should not use print statements-- need to update 
     printf("mem add of mymalloc 1: %p\n", test1); 
     printf("mem add of mymalloc 2: %p\n", test2); 
     printf("mem add of mymalloc 3: %p\n", test3); 

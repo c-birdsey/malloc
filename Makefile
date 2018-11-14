@@ -9,9 +9,13 @@ my-malloc.so: my-malloc.c
 test-malloc: test-malloc.c
 	gcc $(CFLAGS) -o $@ $^ 
 
-.PHONY: link
-link:
+.PHONY: link_ls
+link_ls:
 	LD_PRELOAD=./my-malloc.so ls
+
+.PHONY: link_test
+link_test:
+	LD_PRELOAD=./my-malloc.so ./test-malloc
 
 .PHONY: gdb
 gdb: 
