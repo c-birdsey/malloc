@@ -21,7 +21,7 @@ struct block *
 new_block(int size, struct block *last) {
     struct block *block;
     block = sbrk(BLOCK_SIZE + size + 15); //adding 15 for possible shift in case of alignment issues-- NOT EFFICIENT  
-    int align =  16 - (((intptr_t) block) % 16); 
+    int align = 16 - (((intptr_t) (block + 1)) % 16); 
     if(align < 16) {
         block = (struct block *)((char *) block + align);  
     }
@@ -61,12 +61,12 @@ malloc(size_t size) {
     struct block *cur = FIRST_NODE; 
     while(cur) { 
         if(((cur->free_flag) == 0) && ((cur->size) >= size)) {
-            cur->size = size; 
+            cur->size = size;
             cur->free_flag = 1; 
             return (cur + 1); 
         } 
         if(cur->next == NULL) {
-            //char buf[6] = "test"; 
+            //char buf[6] = "test\n"; 
             //write(1, buf, 6); 
             break; 
         }

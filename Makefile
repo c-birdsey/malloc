@@ -13,8 +13,8 @@ test-malloc: test-malloc.c
 link_ls:
 	LD_PRELOAD=./my-malloc.so ls
 
-.PHONY: link_test
-link_test:
+.PHONY: test
+test:
 	LD_PRELOAD=./my-malloc.so ./test-malloc
 
 .PHONY: gdb
@@ -24,4 +24,5 @@ gdb:
 .PHONY: clean
 clean:
 	rm -f my-malloc.so my-malloc test-malloc
+
 
