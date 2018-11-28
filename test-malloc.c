@@ -18,5 +18,5 @@ main(int argc, char const *argv[]) {
     printf("mem add of mymalloc 1: %p\n", test1); 
     printf("mem add of mymalloc 2: %p\n", test2); 
     printf("mem add of mymalloc 3: %p\n", test3); 
-    printf("mem add of mymalloc 4: %p\n", test4); 
+    printf("mem add of mymalloc 4: %p\n", test4);
 }

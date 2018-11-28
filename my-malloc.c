@@ -6,32 +6,45 @@
 #include <unistd.h>
 #include <stddef.h>
 #include <string.h>
+#include <stdio.h> 
+#include "my-malloc.h"
 
-#define BLOCK_SIZE (sizeof(struct block))
-struct block * FIRST_NODE; 
+#define BLOCK_SIZE sizeof(struct block)
 
-//define struct file_struct
-struct block {
-    int free_flag; //flag to determine whether block is free or not-- 0 if free, 1 if not
-    size_t size; 
-    struct block *next; 
-};
+static char *heap_brk = NULL; 
+static char *cur_brk = NULL;  
+struct block *FIRST_NODE;
 
 struct block *
 new_block(int size, struct block *last) {
-    struct block *block;
-    block = sbrk(BLOCK_SIZE + size + 15); //adding 15 for possible shift in case of alignment issues-- NOT EFFICIENT  
+    //intptr_t heap = (intptr_t)heap_brk; 
+    //intptr_t cur = (intptr_t)cur_brk; 
+    if((cur_brk + 1024) >= heap_brk) {
+        cur_brk = sbrk(10000); 
+        heap_brk = sbrk(0); 
+        //ERROR CHECK   
+        
+        //printf("cur break: %ld\n", (cur + 1024));
+        //printf("heap break: %ld\n", heap);
+        char test[] = "sbrk\n";
+        write(1, test, sizeof(test));
+    }
+    struct block *block = (struct block *) cur_brk;
+    cur_brk += (BLOCK_SIZE + size + 15); 
+    //printf("cur break: %p\n", cur_brk);
+    //struct block *block = sbrk(BLOCK_SIZE + size + 1500); //adding 15 for possible shift in case of alignment issues-- NOT EFFICIENT  
     int align = 16 - (((intptr_t) (block + 1)) % 16); 
     if(align < 16) {
         block = (struct block *)((char *) block + align);  
     }
-    /* FOR TESTING 
-    * void * next_break;
-    * next_break = sbrk(0); 
-    * printf("block address: %p\n", (void *) block); 
-    * printf("data address: %p\n", (void *) (block + 1)); 
-    * printf("next block: %p\n\n", next_break); 
-    */ 
+
+    //FOR TESTING 
+    /*void * next_break;
+    next_break = sbrk(0); 
+    printf("block address: %p\n", (void *) block); 
+    printf("data address: %p\n", (void *) (block + 1)); 
+    printf("next block: %p\n\n", next_break); */
+     
     if(block == (void *) - 1) {
         return block; 
     }
@@ -52,6 +65,7 @@ malloc(size_t size) {
 
     //first malloc call 
     if(FIRST_NODE == NULL) { 
+        write(1, "FIRST CALL\n", 11);
         struct block *block;  
         block = new_block(size, NULL); 
         FIRST_NODE = block; 
@@ -63,6 +77,7 @@ malloc(size_t size) {
         if(((cur->free_flag) == 0) && ((cur->size) >= size)) {
             cur->size = size;
             cur->free_flag = 1; 
+            write(1, "EXISTING NODE\n", 14);
             return (cur + 1); 
         } 
         if(cur->next == NULL) {
@@ -74,6 +89,7 @@ malloc(size_t size) {
     } 
     
     //no open block, create new 
+    write(1, "NEW NODE\n", 9);
     struct block *new_node; 
     new_node = new_block(size, cur); 
     return (new_node + 1); 
@@ -112,8 +128,7 @@ realloc(void * ptr, size_t size) {
     if(size <= (block->size)) {
         block->size = size; 
         memset(((char *) ptr + size), 0, (block->size - size));
-        return ptr; 
-        // does this mem need to be freed? aka make a new block of size (block->size - size)
+        return ptr;
     } else {
         struct block *new_block = malloc(size); 
         memcpy(new_block, ptr, block->size); 

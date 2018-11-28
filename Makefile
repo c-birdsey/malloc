@@ -9,9 +9,14 @@ my-malloc.so: my-malloc.c
 test-malloc: test-malloc.c
 	gcc $(CFLAGS) -o $@ $^ 
 
-.PHONY: link_ls 
-link_ls:
+.PHONY: ls 
+ls:
+
 	LD_PRELOAD=./my-malloc.so ls
+
+.PHONY: ls-l
+ls-l:
+	LD_PRELOAD=./my-malloc.so ls -la
 
 .PHONY: test
 test:
@@ -20,6 +25,10 @@ test:
 .PHONY: gdb
 gdb: 
 	gdb --args env LD_PRELOAD=./my-malloc.so ls -l
+
+.PHONY: gdb-test
+gdb-test: 
+	gdb --args env LD_PRELOAD=./my-malloc.so ./test-malloc
 
 .PHONY: clean
 clean:
