@@ -16,7 +16,7 @@ ls:
 
 .PHONY: ls-l
 ls-l:
-	LD_PRELOAD=./my-malloc.so ls -la
+	LD_PRELOAD=./my-malloc.so ls -l
 
 .PHONY: test
 test:
