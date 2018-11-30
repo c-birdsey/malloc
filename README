@@ -4,11 +4,7 @@ authors:
     Calder Birdsey 
 
 known bugs: 
-    -having issues with ls -l: when running and examining in gdb, at some point when searching for an empty block in malloc, 
-    cur->next points to a low mem address outside the heap (e.g. in my tests is was 0x100000002) and this memory was not 
-    accessible. thus when the while loop started again, to access the struct with cur->size was causing a segfault. I cannot
-    tell where that memory address is coming from. cur-> next should either be NULL or filled with a new block address obtained
-    from sbrk
+    -None
 
 sources:
 https://www.geeksforgeeks.org/linked-list-set-1-introduction/

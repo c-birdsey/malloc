@@ -11,8 +11,11 @@ test-malloc: test-malloc.c
 
 .PHONY: ls 
 ls:
-
 	LD_PRELOAD=./my-malloc.so ls
+
+.PHONY: ls-la
+ls-la:
+	LD_PRELOAD=./my-malloc.so ls -la
 
 .PHONY: ls-l
 ls-l:

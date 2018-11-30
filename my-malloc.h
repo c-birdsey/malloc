@@ -4,11 +4,12 @@
 
 #include <stdio.h>
 
-//define struct file_struct
+//define struct block
 struct block {
     int free_flag; //flag to determine whether block is free or not-- 0 if free, 1 if not
     size_t size; 
     struct block *next; 
+    char padding[8]; 
 };
 
 struct block * new_block(int size, struct block *last);
