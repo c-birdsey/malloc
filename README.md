@@ -1,6 +1,6 @@
 # Implementing malloc
 
-Middlebury College CS315 Systems Programming- Fall 2018: This assignment created replacements for the malloc(3) and free(3) calls and also the variants of the former: calloc(3) and realloc(3). This implementation of malloc moderately and intelligently grows the size of the heap to accommodate for new requests, minimizing the calls to brk(2) and sbrk(2) to maintain efficiency. 
+Fall 2018: This assignment created replacements for the malloc(3) and free(3) calls and also the variants of the former: calloc(3) and realloc(3). This implementation of malloc moderately and intelligently grows the size of the heap to accommodate for new requests, minimizing the calls to brk(2) and sbrk(2) to maintain efficiency. 
 
 ## Getting Started
 
